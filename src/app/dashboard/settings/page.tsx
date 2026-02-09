@@ -8,7 +8,8 @@ import { cn } from "@/lib/utils";
 import { 
   Bell, 
   Moon, 
-  Globe, 
+  Globe,
+  Shield,
   CreditCard, 
   LogOut,
   ChevronRight,
