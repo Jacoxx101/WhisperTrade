@@ -1,226 +1,234 @@
-# WhisperTrade 🚀
+# WhisperTrade API Integration
 
-[![Next.js](https://img.shields.io/badge/Next.js-14-black?style=flat-square&logo=next.js)](https://nextjs.org/)
-[![React](https://img.shields.io/badge/React-18-blue?style=flat-square&logo=react)](https://reactjs.org/)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5-blue?style=flat-square&logo=typescript)](https://www.typescriptlang.org/)
-[![Tailwind CSS](https://img.shields.io/badge/Tailwind-3-cyan?style=flat-square&logo=tailwind-css)](https://tailwindcss.com/)
-[![License](https://img.shields.io/badge/License-MIT-green.svg?style=flat-square)](LICENSE)
+AI-powered social sentiment stock analysis platform with real-time data from YouTube, Twitter, Reddit, and stock price APIs.
 
-> **AI-Powered Social Sentiment Stock Analysis Platform**
+## Features
 
-Turn YouTube, Twitter/X, and Reddit conversations into actionable buy/sell signals with confidence scores.
+- **Real-time Stock Prices**: Powered by Alpha Vantage API
+- **YouTube Sentiment**: Analyze video content and comments for stock mentions
+- **Twitter/X Sentiment**: Track cashtag mentions and analyze tweet sentiment
+- **Reddit Sentiment**: Monitor discussions in r/wallstreetbets, r/stocks, and more
+- **AI-Powered Analysis**: OpenAI GPT-4o-mini for sentiment scoring
+- **Signal Aggregation**: Weighted sentiment scoring across all sources
+- **Auto-Refresh**: Automatic data updates every 2 minutes
+- **Rate Limiting Protection**: Smart caching to avoid API limits
 
-![Dashboard Preview](./screenshot.png)
+## API Integrations
 
-## ✨ Features
+### 1. Alpha Vantage (Stock Prices)
+- **Endpoint**: `/api/stock/[ticker]/price`
+- **Features**:
+  - Real-time stock quotes
+  - Rate limit handling (5 calls/minute free tier)
+  - 5-minute caching
+- **Setup**: Free API key included (500 calls/day)
 
-### Core Functionality
-- 📊 **Signal Cards** — Clear Buy/Sell/Hold recommendations with 0-100% confidence scores
-- 📺 **YouTube Analysis** — Auto-transcribe finance videos and extract sentiment
-- 🐦 **Twitter/X Sentiment** — Real-time ticker sentiment with influencer weighting  
-- 💬 **Reddit Monitoring** — Track r/wallstreetbets, r/stocks, r/investing sentiment
-- 🤖 **AI Summarization** — GPT-powered "Why this signal" explanations
-- 📱 **Watchlist Management** — Organize stocks with folders and drag-to-reorder
-- 🔔 **Smart Alerts** — Push notifications for sentiment shifts
-- 🌙 **Whisper Mode** — Minimal, distraction-free view for quick checks
-- 📈 **Trending Stocks** — Top movers with sentiment heatmap
-- 📊 **Signal History** — Track accuracy and win rates
+### 2. YouTube Data API
+- **Endpoint**: `/api/sentiment/youtube?ticker=AAPL`
+- **Features**:
+  - Search videos by ticker mention
+  - Extract video metadata and comments
+  - 10-minute caching
+- **Setup**: API key included (quota limits apply)
 
-### Professional Features
-- 🎨 **Dark Mode UI** — Sleek, modern interface with Tailwind CSS
-- 📱 **Mobile-First** — Fully responsive design
-- ⚡ **Real-time Updates** — Live data refresh
-- 🔒 **Secure Authentication** — NextAuth.js integration
-- 📊 **Analytics Ready** — Database schema with Prisma
-- 🚀 **Production Ready** — Optimized for Vercel deployment
+### 3. Twitter/X API (Optional)
+- **Endpoint**: `/api/sentiment/twitter?ticker=AAPL`
+- **Features**:
+  - Search by cashtag ($AAPL)
+  - Weight by follower count
+  - 5-minute caching
+- **Setup**: Requires Twitter Basic tier API key
 
-## 🚀 Quick Start
+### 4. Reddit API
+- **Endpoint**: `/api/sentiment/reddit?ticker=AAPL`
+- **Features**:
+  - Search r/wallstreetbets, r/stocks, r/investing
+  - Works with or without OAuth
+  - 5-minute caching
+- **Setup**: Optional OAuth for higher rate limits
 
-### Prerequisites
-- Node.js 18+
-- npm or yarn
-- GitHub account (for OAuth)
-- API keys (see below)
+### 5. Signal Aggregation
+- **Endpoint**: `/api/signal?ticker=AAPL` or `/api/signal?tickers=AAPL,NVDA,TSLA`
+- **Features**:
+  - Combines all sentiment sources
+  - AI-powered analysis (OpenAI)
+  - Fallback rule-based analysis
+  - Weighted scoring algorithm
 
-### Installation
+## Setup Instructions
 
-1. **Clone the repository**
+### 1. Clone and Install
+
 ```bash
-git clone https://github.com/Jacoxx101/WhisperTrade.git
-cd WhisperTrade
-```
-
-2. **Install dependencies**
-```bash
+git clone <repository-url>
+cd WhisperTrade-PUSH
 npm install
 ```
 
-3. **Set up environment variables**
+### 2. Environment Variables
+
+Copy the example environment file and configure your API keys:
+
 ```bash
 cp .env.example .env.local
-# Edit .env.local with your API keys
 ```
 
-4. **Run the development server**
+Edit `.env.local` and add your API keys:
+
+```env
+# Required
+ALPHA_VANTAGE_API_KEY=0LPF2FXTGBMALMFN
+YOUTUBE_API_KEY=AIzaSyARZsPRNG0CZOYHmE7qSoh1hrlVjQcFX3Y
+
+# Optional (for enhanced sentiment analysis)
+OPENAI_API_KEY=your_openai_api_key_here
+TWITTER_BEARER_TOKEN=your_twitter_token_here
+REDDIT_CLIENT_ID=your_reddit_client_id
+REDDIT_CLIENT_SECRET=your_reddit_client_secret
+```
+
+### 3. Run Development Server
+
 ```bash
 npm run dev
 ```
 
-5. **Open** [http://localhost:3000](http://localhost:3000)
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-## 🔧 Configuration
-
-### Required API Keys
-
-| Service | Purpose | Get Key |
-|---------|---------|---------|
-| **YouTube Data API** | Video analysis | [Google Cloud Console](https://console.cloud.google.com/apis/credentials) |
-| **Twitter/X API** | Tweet sentiment | [Twitter Developer Portal](https://developer.twitter.com/en/portal/dashboard) |
-| **Reddit API** | Subreddit monitoring | [Reddit Apps](https://www.reddit.com/prefs/apps) |
-| **OpenAI API** | AI summarization | [OpenAI Platform](https://platform.openai.com/api-keys) |
-| **Alpha Vantage** | Stock prices | [Alpha Vantage](https://www.alphavantage.co/support/#api-key) |
-
-### Environment Variables
-
-```env
-# NextAuth.js
-NEXTAUTH_URL=http://localhost:3000
-NEXTAUTH_SECRET=your-secret-key
-
-# Database
-DATABASE_URL=postgresql://user:password@localhost:5432/whispertrade
-
-# APIs
-OPENAI_API_KEY=sk-your-openai-key
-YOUTUBE_API_KEY=your-youtube-key
-TWITTER_BEARER_TOKEN=your-twitter-token
-REDDIT_CLIENT_ID=your-reddit-id
-REDDIT_CLIENT_SECRET=your-reddit-secret
-ALPHA_VANTAGE_API_KEY=your-alpha-vantage-key
-```
-
-## 🏗️ Project Structure
-
-```
-whispertrade/
-├── src/
-│   ├── app/                    # Next.js App Router
-│   │   ├── dashboard/          # Dashboard pages
-│   │   │   ├── page.tsx        # Main dashboard
-│   │   │   ├── stock/[ticker]/ # Stock detail
-│   │   │   ├── watchlist/      # Watchlist management
-│   │   │   ├── trending/       # Trending stocks
-│   │   │   ├── alerts/         # Notifications
-│   │   │   ├── settings/       # User preferences
-│   │   │   └── whisper/        # Minimal mode
-│   │   ├── page.tsx            # Landing page
-│   │   ├── layout.tsx          # Root layout
-│   │   └── globals.css         # Global styles
-│   ├── components/
-│   │   ├── ui/                 # Base UI components
-│   │   ├── signals/            # Signal components
-│   │   ├── dashboard/          # Dashboard layout
-│   │   ├── trending/           # Trending components
-│   │   └── alerts/             # Alert components
-│   ├── lib/
-│   │   ├── utils.ts            # Utility functions
-│   │   └── mock-data.ts        # Mock data
-│   └── types/
-│       └── index.ts            # TypeScript types
-├── prisma/                     # Database schema
-├── public/                     # Static assets
-├── .env.example                # Environment template
-├── next.config.mjs             # Next.js config
-├── tailwind.config.ts          # Tailwind config
-└── package.json                # Dependencies
-```
-
-## 📱 Pages
-
-| Route | Description |
-|-------|-------------|
-| `/` | Landing page with pricing |
-| `/dashboard` | Main dashboard with signals |
-| `/dashboard/stock/[ticker]` | Stock detail analysis |
-| `/dashboard/watchlist` | Watchlist management |
-| `/dashboard/trending` | Trending stocks |
-| `/dashboard/alerts` | Notification center |
-| `/dashboard/settings` | User preferences |
-| `/dashboard/whisper` | Minimal view mode |
-
-## 🎨 Design System
-
-### Colors
-```
-Primary:   #6366F1 (Indigo 500)
-Buy:       #10B981 (Emerald 500)
-Sell:      #EF4444 (Red 500)
-Hold:      #F59E0B (Amber 500)
-Background:#0F172A (Slate 900)
-Surface:   #1E293B (Slate 800)
-Text:      #F8FAFC (Slate 50)
-Muted:     #94A3B8 (Slate 400)
-```
-
-### Typography
-- **UI:** Inter
-- **Numbers:** JetBrains Mono (tabular nums)
-
-## 🚀 Deployment
-
-### Vercel (Recommended)
-
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/Jacoxx101/WhisperTrade)
-
-1. Push to GitHub
-2. Import to Vercel
-3. Add environment variables
-4. Deploy
-
-### Self-Hosted
+### 4. Build for Production
 
 ```bash
 npm run build
-# Serve dist/ directory
+npm start
 ```
 
-## 🛣️ Roadmap
+## API Rate Limits
 
-- [ ] Real API integrations (YouTube, Twitter, Reddit)
-- [ ] Backtesting engine with historical data
-- [ ] Options flow integration
-- [ ] Brokerage API connections (Alpaca, TD Ameritrade)
-- [ ] AI chat assistant
-- [ ] Pre-market briefings
-- [ ] Custom alert builder
-- [ ] Mobile app (React Native)
-- [ ] Premium subscription with Stripe
-- [ ] WebSocket real-time updates
+| Service | Free Tier | Cache Duration |
+|---------|-----------|----------------|
+| Alpha Vantage | 5 calls/min, 500/day | 5 minutes |
+| YouTube | 10,000 units/day | 10 minutes |
+| Twitter | Requires Basic tier | 5 minutes |
+| Reddit | 60 requests/min | 5 minutes |
 
-## 🤝 Contributing
+## Architecture
 
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+```
+src/
+├── app/
+│   ├── api/
+│   │   ├── stock/[ticker]/price/     # Stock price endpoint
+│   │   ├── sentiment/
+│   │   │   ├── youtube/              # YouTube sentiment
+│   │   │   ├── twitter/              # Twitter sentiment
+│   │   │   └── reddit/               # Reddit sentiment
+│   │   └── signal/                   # Aggregated signals
+│   └── dashboard/                    # Frontend pages
+├── lib/
+│   ├── api/                          # API service modules
+│   │   ├── alphavantage.ts           # Alpha Vantage integration
+│   │   ├── youtube.ts                # YouTube API integration
+│   │   ├── twitter.ts                # Twitter API integration
+│   │   ├── reddit.ts                 # Reddit API integration
+│   │   └── openai.ts                 # OpenAI sentiment analysis
+│   ├── services/
+│   │   └── signal-aggregator.ts      # Signal aggregation engine
+│   └── api-client.ts                 # Frontend API utilities
+└── types/                            # TypeScript types
+```
 
-## 📝 License
+## Usage Examples
 
-MIT License - see [LICENSE](LICENSE) for details.
+### Fetch Stock Price
+```typescript
+const response = await fetch('/api/stock/AAPL/price');
+const { data } = await response.json();
+// data: { ticker, price, change, changePercent, ... }
+```
 
-## ⚠️ Disclaimer
+### Fetch Sentiment
+```typescript
+// Single source
+const youtube = await fetch('/api/sentiment/youtube?ticker=AAPL');
+const twitter = await fetch('/api/sentiment/twitter?ticker=AAPL');
+const reddit = await fetch('/api/sentiment/reddit?ticker=AAPL');
 
-**Not Financial Advice:** This platform provides AI-generated sentiment analysis for informational purposes only. Past performance does not guarantee future results. Always conduct your own research and consult a financial advisor before making investment decisions.
+// Aggregated signal
+const signal = await fetch('/api/signal?ticker=AAPL');
+const batch = await fetch('/api/signal?tickers=AAPL,NVDA,TSLA');
+```
 
-## 🙏 Acknowledgments
+### Analyze Custom Ticker
+```typescript
+const response = await fetch('/api/signal', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({
+    ticker: 'AAPL',
+    config: {
+      useYouTube: true,
+      useTwitter: true,
+      useReddit: true,
+      maxYouTubeVideos: 5,
+      maxTweets: 20,
+      maxRedditPosts: 10,
+    }
+  })
+});
+```
 
-- Built with [Next.js](https://nextjs.org/)
-- Styled with [Tailwind CSS](https://tailwindcss.com/)
-- Icons by [Lucide](https://lucide.dev/)
-- UI Components powered by [Radix UI](https://www.radix-ui.com/)
+## Getting API Keys
 
----
+### Alpha Vantage
+1. Visit https://www.alphavantage.co/support/#api-key
+2. Sign up for free API key
+3. 500 requests per day, 5 per minute
 
-Made with ❤️ by [Jacoxx101](https://github.com/Jacoxx101)
-# Deployment Mon Feb  9 19:46:32 UTC 2026
+### YouTube Data API
+1. Go to https://console.cloud.google.com/
+2. Create a new project
+3. Enable "YouTube Data API v3"
+4. Create credentials (API Key)
+
+### OpenAI
+1. Visit https://platform.openai.com/api-keys
+2. Create an API key
+3. Recommended: Set usage limits to control costs
+
+### Twitter/X API
+1. Go to https://developer.twitter.com/en/portal/dashboard
+2. Apply for Basic tier ($100/month)
+3. Create an app and get Bearer Token
+
+### Reddit API
+1. Go to https://www.reddit.com/prefs/apps
+2. Click "Create App" → "script"
+3. Note the Client ID and Client Secret
+
+## Troubleshooting
+
+### "API rate limit exceeded"
+- Wait for the cache to refresh (see cache durations above)
+- Check your API quota usage in respective dashboards
+
+### "Twitter API not configured"
+- Twitter requires a paid API tier for search
+- Set `TWITTER_BEARER_TOKEN` in `.env.local`
+
+### "No data available"
+- Check your API keys are correctly set
+- Verify network connectivity
+- Check browser console for error details
+
+### Build errors
+- Ensure all dependencies are installed: `npm install`
+- Check Node.js version (v18+ required)
+- Clear cache: `rm -rf .next node_modules && npm install`
+
+## License
+
+MIT License - See LICENSE file for details.
+
+## Disclaimer
+
+This platform provides AI-generated sentiment analysis for informational purposes only. It does not constitute financial advice. Always do your own research and consult a financial advisor before making investment decisions.
