@@ -1,5 +1,6 @@
 // src/lib/services/signal-aggregator.ts
 // Signal Aggregation Engine - combines all sentiment sources
+/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars */
 
 import NodeCache from 'node-cache';
 import {

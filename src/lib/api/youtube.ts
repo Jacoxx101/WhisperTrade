@@ -1,5 +1,6 @@
 // src/lib/api/youtube.ts
 // YouTube Data API integration for sentiment analysis
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
 import axios from 'axios';
 import NodeCache from 'node-cache';

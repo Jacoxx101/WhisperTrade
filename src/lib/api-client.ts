@@ -1,7 +1,7 @@
 // src/lib/api-client.ts
 // Client-side API utilities for fetching data
 
-import { StockSignal, TrendingStock, Alert } from '@/types';
+import { StockSignal } from '@/types';
 
 const API_BASE = '/api';
 

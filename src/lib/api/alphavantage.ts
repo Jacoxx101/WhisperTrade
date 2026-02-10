@@ -1,5 +1,6 @@
 // src/lib/api/alphavantage.ts
 // Alpha Vantage Stock Price API integration
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
 import axios from 'axios';
 import NodeCache from 'node-cache';

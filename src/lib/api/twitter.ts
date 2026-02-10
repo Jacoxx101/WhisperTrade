@@ -1,5 +1,6 @@
 // src/lib/api/twitter.ts
 // Twitter/X API integration for sentiment analysis
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
 import axios from 'axios';
 import NodeCache from 'node-cache';

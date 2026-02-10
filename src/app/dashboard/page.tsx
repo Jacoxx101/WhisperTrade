@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { SignalCard } from '@/components/signals/signal-card';
 import { TrendingList } from '@/components/trending/trending-list';
 import { AlertItem } from '@/components/alerts/alert-item';
-import { Card, CardContent } from '@/components/ui/card';
+import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
 import { mockTrending, mockAlerts, mockWatchlist } from '@/lib/mock-data';

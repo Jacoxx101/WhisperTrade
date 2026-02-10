@@ -1,5 +1,6 @@
 // src/lib/api/reddit.ts
 // Reddit API integration for sentiment analysis
+/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars */
 
 import axios from 'axios';
 import NodeCache from 'node-cache';

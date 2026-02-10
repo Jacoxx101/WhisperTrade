@@ -54,7 +54,7 @@ export async function GET(request: NextRequest) {
       const tickerList = tickers.split(',').map(t => t.trim().toUpperCase());
       const aggregatedSignals = await getBatchSignals(tickerList);
       
-      const stockSignals = aggregatedSignals.map((agg, index) =>
+      const stockSignals = aggregatedSignals.map((agg) =>
         toStockSignal(agg, stockNames[agg.ticker] || agg.ticker, `signal-${agg.ticker}`)
       );
       
